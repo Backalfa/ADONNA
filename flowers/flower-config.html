@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Configurações - Flower Boxes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#f6f3ef;
+            color:#333;
+        }
+
+        .container{
+            width:90%;
+            max-width:500px;
+            margin:30px auto;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            font-size:28px;
+        }
+
+        .card{
+            background:#fff;
+            border-radius:20px;
+            padding:20px;
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+        }
+
+        .item{
+            margin-bottom:18px;
+        }
+
+        .item label{
+            display:block;
+            margin-bottom:8px;
+            font-size:15px;
+            font-weight:500;
+        }
+
+        .item input{
+
+            width:100%;
+            padding:12px;
+
+            border:1px solid #ddd;
+            border-radius:12px;
+
+            font-size:16px;
+
+            outline:none;
+
+        }
+
+        .item input:focus{
+            border-color:#b78d61;
+        }
+
+        .btn{
+
+            width:100%;
+            padding:15px;
+
+            border:none;
+            border-radius:15px;
+
+            font-size:16px;
+            cursor:pointer;
+
+            margin-top:10px;
+
+        }
+
+        .guardar{
+            background:#A67C52;
+            color:white;
+        }
+
+        .voltar{
+            background:#444;
+            color:white;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>⚙ Configurações</h1>
+
+    <div class="card">
+
+        <div class="item">
+            <label>Caixa Grande (€)</label>
+            <input id="caixa_grande" type="number" step="0.01" value="26.00">
+        </div>
+
+        <div class="item">
+            <label>Caixa Média (com peluche) (€)</label>
+            <input id="caixa_media_peluche" type="number" step="0.01" value="20.30">
+        </div>
+
+        <div class="item">
+            <label>Caixa Média (sem peluche) (€)</label>
+            <input id="caixa_media_sem_peluche" type="number" step="0.01" value="17.50">
+        </div>
+
+        <div class="item">
+            <label>Caixa Pequena (€)</label>
+            <input id="caixa_pequena" type="number" step="0.01" value="16.80">
+        </div>
+
+        <div class="item">
+            <label>Pote Pequeno (€)</label>
+            <input id="pote_pequeno" type="number" step="0.01" value="19.90">
+        </div>
+
+        <div class="item">
+            <label>Pote Médio (€)</label>
+            <input id="pote_medio" type="number" step="0.01" value="21.00">
+        </div>
+
+        <div class="item">
+            <label>Pote Grande Ondulado (€)</label>
+            <input id="pote_grande_ondulado" type="number" step="0.01" value="23.80">
+        </div>
+
+        <div class="item">
+            <label>Pote Pequeno Orelhas (€)</label>
+            <input id="pote_pequeno_orelhas" type="number" step="0.01" value="20.50">
+        </div>
+
+        <div class="item">
+            <label>Coelho Felpudo (€)</label>
+            <input id="coelho_felpudo" type="number" step="0.01" value="2.30">
+        </div>
+
+        <div class="item">
+            <label>Flores Pequenas (€)</label>
+            <input id="flores_pequenas" type="number" step="0.01" value="2.00">
+        </div>
+
+        <div class="item">
+            <label>Flores Médias (€)</label>
+            <input id="flores_medias" type="number" step="0.01" value="3.00">
+        </div>
+
+        <div class="item">
+            <label>Flores Grandes (€)</label>
+            <input id="flores_grandes" type="number" step="0.01" value="4.00">
+        </div>
+
+        <button class="btn guardar" onclick="guardar()">
+            💾 Guardar
+        </button>
+
+        <button class="btn voltar" onclick="history.back()">
+            ← Voltar
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+function guardar(){
+
+    const configuracoes = {
+
+        caixa_grande: document.getElementById("caixa_grande").value,
+        caixa_media_peluche: document.getElementById("caixa_media_peluche").value,
+        caixa_media_sem_peluche: document.getElementById("caixa_media_sem_peluche").value,
+        caixa_pequena: document.getElementById("caixa_pequena").value,
+
+        pote_pequeno: document.getElementById("pote_pequeno").value,
+        pote_medio: document.getElementById("pote_medio").value,
+        pote_grande_ondulado: document.getElementById("pote_grande_ondulado").value,
+        pote_pequeno_orelhas: document.getElementById("pote_pequeno_orelhas").value,
+
+        coelho_felpudo: document.getElementById("coelho_felpudo").value,
+
+        flores_pequenas: document.getElementById("flores_pequenas").value,
+        flores_medias: document.getElementById("flores_medias").value,
+        flores_grandes: document.getElementById("flores_grandes").value
+
+    };
+
+    console.log(configuracoes);
+
+    alert("Configurações guardadas!");
+
+    // Mais tarde:
+    // fetch('/wp-json/adonna/v1/configuracoes', {...})
+
+}
+
+</script>
+
+</body>
+</html>

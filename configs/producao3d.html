@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="pt-PT">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cálculos 3D</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Poppins", sans-serif;
+            }
+
+            body {
+                background: #f6f3ef;
+                color: #333;
+            }
+
+            .container {
+                width: 90%;
+                max-width: 500px;
+                margin: 30px auto;
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 26px;
+            }
+
+            .card {
+                background: #fff;
+                border-radius: 20px;
+                padding: 20px;
+                margin-bottom: 15px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            }
+
+            .item {
+                margin-bottom: 15px;
+            }
+
+            .item:last-child {
+                margin-bottom: 0;
+            }
+
+            label {
+                display: block;
+                font-weight: 500;
+                margin-bottom: 6px;
+            }
+
+            input {
+                width: 100%;
+                padding: 12px;
+                border-radius: 12px;
+                border: 1px solid #ddd;
+                font-size: 15px;
+            }
+
+            input:focus {
+                outline: none;
+                border-color: #a67c52;
+            }
+
+            input[readonly] {
+                background: #f5f5f5;
+            }
+
+            .resultado {
+                background: #f5f5f5;
+                font-weight: 600;
+            }
+
+            .preco-final {
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 15px;
+                border: none;
+                border-radius: 15px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .back {
+                background: #444;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>📐 Cálculos 3D</h1>
+
+            <!-- ================================= -->
+            <!-- MATERIAL -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">🧱 Material</h2>
+                <div class="item">
+                    <label> Peso da peça (g) </label>
+
+                    <input type="number" step="0.01" id="peso" placeholder="Ex: 110" />
+                </div>
+
+                <div class="item">
+                    <label> Preço do filamento (€/kg) </label>
+
+                    <input type="number" step="0.01" id="precoFilamento" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Perda Material (%) </label>
+
+                    <input type="number" step="0.01" id="perdaMaterial" readonly />
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item">
+                    <label> Subtotal Material (€) </label>
+
+                    <input type="text" id="subtotalMaterial" class="resultado" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- ENERGIA -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">⚡ Energia</h2>
+
+                <div class="item">
+                    <label> Potência da Máquina (W) </label>
+
+                    <input type="number" step="1" id="potenciaMaquina" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Tempo de Impressão (h) </label>
+
+                    <input type="number" step="0.01" id="tempoImpressao" placeholder="Ex: 10.75" />
+                </div>
+
+                <div class="item">
+                    <label> Preço Energia (€/kWh) </label>
+
+                    <input type="number" step="0.01" id="precoEnergia" readonly />
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item">
+                    <label> Subtotal Energia (€) </label>
+
+                    <input type="text" id="subtotalEnergia" class="resultado" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- DEPRECIAÇÃO -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">🔧 Depreciação da Máquina</h2>
+
+                <div class="item">
+                    <label> Preço Impressora (€) </label>
+
+                    <input type="number" step="0.01" id="precoImpressora" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Vida Útil (horas) </label>
+
+                    <input type="number" step="1" id="vidaUtil" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Manutenção (%) </label>
+
+                    <input type="number" step="0.01" id="manutencao" readonly />
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item">
+                    <label> Subtotal Depreciação (€) </label>
+
+                    <input type="text" id="subtotalDepreciacao" class="resultado" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- MÃO DE OBRA -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">👷 Mão de Obra</h2>
+
+                <div class="item">
+                    <label> Preparação (minutos) </label>
+
+                    <input type="number" step="1" id="preparacao" placeholder="Ex: 10" />
+                </div>
+
+                <div class="item">
+                    <label> Pós-Processamento (minutos) </label>
+
+                    <input type="number" step="1" id="posProcessamento" placeholder="Ex: 10" />
+                </div>
+
+                <div class="item">
+                    <label> Valor Tempo (€/hora) </label>
+
+                    <input type="number" step="0.01" id="valorTempo" readonly />
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item">
+                    <label> Subtotal Mão de Obra (€) </label>
+
+                    <input type="text" id="subtotalMaoObra" class="resultado" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- MARGEM DE LUCRO -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <div class="item">
+                    <label> Margem de Lucro (%) </label>
+
+                    <input type="number" step="0.01" id="margemLucro" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- RESULTADO FINAL -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">💰 Resultado</h2>
+
+                <div class="item">
+                    <label> Total de Custo (€) </label>
+
+                    <input type="text" id="totalCusto" class="resultado" value="0,00 €" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Margem de Lucro (%) </label>
+
+                    <input type="text" id="margemLucroResultado" class="resultado" value="0,00 %" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Preço de Venda (€) </label>
+
+                    <input type="text" id="precoVenda" class="resultado preco-final" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- VOLTAR -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <button class="btn back" onclick="history.back()">← Voltar</button>
+            </div>
+        </div>
+        <script type="module">
+            import { obterConfig } from "../js/config.js";
+
+            /* ================================= */
+            /* MATERIAL */
+            /* ================================= */
+
+            const peso = document.getElementById("peso");
+
+            const precoFilamento = document.getElementById("precoFilamento");
+
+            const perdaMaterial = document.getElementById("perdaMaterial");
+
+            const subtotalMaterial = document.getElementById("subtotalMaterial");
+
+            /* ================================= */
+            /* ENERGIA */
+            /* ================================= */
+
+            const potenciaMaquina = document.getElementById("potenciaMaquina");
+
+            const tempoImpressao = document.getElementById("tempoImpressao");
+
+            const precoEnergia = document.getElementById("precoEnergia");
+
+            const subtotalEnergia = document.getElementById("subtotalEnergia");
+
+            /* ================================= */
+            /* DEPRECIAÇÃO */
+            /* ================================= */
+
+            const precoImpressora = document.getElementById("precoImpressora");
+
+            const vidaUtil = document.getElementById("vidaUtil");
+
+            const manutencao = document.getElementById("manutencao");
+
+            const subtotalDepreciacao = document.getElementById("subtotalDepreciacao");
+
+            /* ================================= */
+            /* MÃO DE OBRA */
+            /* ================================= */
+
+            const preparacao = document.getElementById("preparacao");
+
+            const posProcessamento = document.getElementById("posProcessamento");
+
+            const valorTempo = document.getElementById("valorTempo");
+
+            const subtotalMaoObra = document.getElementById("subtotalMaoObra");
+
+            /* ================================= */
+            /* MARGEM */
+            /* ================================= */
+
+            const margemLucro = document.getElementById("margemLucro");
+
+            /* ================================= */
+            /* RESULTADO */
+            /* ================================= */
+
+            const totalCusto = document.getElementById("totalCusto");
+
+            const margemLucroResultado = document.getElementById("margemLucroResultado");
+
+            const precoVenda = document.getElementById("precoVenda");
+
+            /* ================================= */
+            /* FORMATAR EUROS */
+            /* ================================= */
+
+            function formatarEuro(valor) {
+                return valor.toFixed(2).replace(".", ",") + " €";
+            }
+
+            /* ================================= */
+            /* MATERIAL */
+            /* ================================= */
+
+            function calcularMaterial() {
+                const pesoValor = parseFloat(peso.value) || 0;
+
+                const precoValor = parseFloat(precoFilamento.value) || 0;
+
+                const perdaValor = parseFloat(perdaMaterial.value) || 0;
+
+                const resultado = ((pesoValor * (perdaValor / 100) + pesoValor) * precoValor) / 1000;
+
+                subtotalMaterial.value = formatarEuro(resultado);
+
+                calcularTotal();
+            }
+
+            /* ================================= */
+            /* ENERGIA */
+            /* ================================= */
+
+            function calcularEnergia() {
+                const tempoValor = parseFloat(tempoImpressao.value) || 0;
+
+                const potenciaValor = parseFloat(potenciaMaquina.value) || 0;
+
+                const precoValor = parseFloat(precoEnergia.value) || 0;
+
+                const resultado = (tempoValor * precoValor * potenciaValor) / 1000;
+
+                subtotalEnergia.value = formatarEuro(resultado);
+
+                calcularTotal();
+            }
+
+            /* ================================= */
+            /* DEPRECIAÇÃO */
+            /* ================================= */
+
+            function calcularDepreciacao() {
+                const tempoValor = parseFloat(tempoImpressao.value) || 0;
+
+                const precoValor = parseFloat(precoImpressora.value) || 0;
+
+                const vidaValor = parseFloat(vidaUtil.value) || 0;
+
+                const manutencaoValor = parseFloat(manutencao.value) || 0;
+
+                if (vidaValor === 0 || manutencaoValor === 0) {
+                    subtotalDepreciacao.value = "0,00 €";
+
+                    calcularTotal();
+
+                    return;
+                }
+
+                const resultado = (((tempoValor * precoValor) / vidaValor) * (100 / manutencaoValor + 100)) / 100;
+
+                subtotalDepreciacao.value = formatarEuro(resultado);
+
+                calcularTotal();
+            }
+
+            /* ================================= */
+            /* MÃO DE OBRA */
+            /* ================================= */
+
+            function calcularMaoObra() {
+                const preparacaoValor = parseFloat(preparacao.value) || 0;
+
+                const posProcessamentoValor = parseFloat(posProcessamento.value) || 0;
+
+                const valorTempoValor = parseFloat(valorTempo.value) || 0;
+
+                const resultado =
+                    (preparacaoValor * valorTempoValor) / 600 + (posProcessamentoValor * valorTempoValor) / 60;
+
+                subtotalMaoObra.value = formatarEuro(resultado);
+
+                calcularTotal();
+            }
+
+            /* ================================= */
+            /* TOTAL E PREÇO DE VENDA */
+            /* ================================= */
+
+            function calcularTotal() {
+                const material = parseFloat(subtotalMaterial.value.replace(" €", "").replace(",", ".")) || 0;
+
+                const energia = parseFloat(subtotalEnergia.value.replace(" €", "").replace(",", ".")) || 0;
+
+                const depreciacao = parseFloat(subtotalDepreciacao.value.replace(" €", "").replace(",", ".")) || 0;
+
+                const maoObra = parseFloat(subtotalMaoObra.value.replace(" €", "").replace(",", ".")) || 0;
+
+                const margem = parseFloat(margemLucro.value) || 0;
+
+                /* ============================= */
+                /* SOMAR TODOS OS CUSTOS */
+                /* ============================= */
+
+                const total = material + energia + depreciacao + maoObra;
+
+                /* ============================= */
+                /* APLICAR MARGEM */
+                /* ============================= */
+
+                const venda = total * (1 + margem / 100);
+
+                /* ============================= */
+                /* MOSTRAR RESULTADOS */
+                /* ============================= */
+
+                totalCusto.value = formatarEuro(total);
+
+                margemLucroResultado.value = margem.toFixed(2).replace(".", ",") + " %";
+
+                precoVenda.value = formatarEuro(venda);
+            }
+
+            /* ================================= */
+            /* CARREGAR CONFIGURAÇÕES */
+            /* ================================= */
+
+            async function carregarConfiguracoes() {
+                const configPrecoFilamento = await obterConfig("material.precoFilamento");
+
+                const configPerdaMaterial = await obterConfig("material.perdaMaterial");
+
+                const configPotenciaMaquina = await obterConfig("energia.potenciaMaquina");
+
+                const configPrecoEnergia = await obterConfig("energia.precoEnergia");
+
+                const configPrecoImpressora = await obterConfig("depreciacao.precoImpressora");
+
+                const configVidaUtil = await obterConfig("depreciacao.vidaUtil");
+
+                const configManutencao = await obterConfig("depreciacao.manutencao");
+
+                const configValorTempo = await obterConfig("maoObra.valorTempo");
+
+                const configMargemLucro = await obterConfig("margemLucro");
+
+                console.log("Preço Filamento:", configPrecoFilamento);
+
+                console.log("Perda Material:", configPerdaMaterial);
+
+                console.log("Potência:", configPotenciaMaquina);
+
+                console.log("Preço Energia:", configPrecoEnergia);
+
+                console.log("Preço Impressora:", configPrecoImpressora);
+
+                console.log("Vida Útil:", configVidaUtil);
+
+                console.log("Manutenção:", configManutencao);
+
+                console.log("Valor Tempo:", configValorTempo);
+
+                console.log("Margem Lucro:", configMargemLucro);
+
+                /* ============================= */
+                /* PREENCHER CAMPOS */
+                /* ============================= */
+
+                precoFilamento.value = configPrecoFilamento ?? "";
+
+                perdaMaterial.value = configPerdaMaterial ?? "";
+
+                potenciaMaquina.value = configPotenciaMaquina ?? "";
+
+                precoEnergia.value = configPrecoEnergia ?? "";
+
+                precoImpressora.value = configPrecoImpressora ?? "";
+
+                vidaUtil.value = configVidaUtil ?? "";
+
+                manutencao.value = configManutencao ?? "";
+
+                valorTempo.value = configValorTempo ?? "";
+
+                margemLucro.value = configMargemLucro ?? "";
+
+                /* ============================= */
+                /* CALCULAR */
+                /* ============================= */
+
+                calcularMaterial();
+
+                calcularEnergia();
+
+                calcularDepreciacao();
+
+                calcularMaoObra();
+
+                calcularTotal();
+            }
+
+            /* ================================= */
+            /* EVENTOS */
+            /* ================================= */
+
+            peso.addEventListener("input", calcularMaterial);
+
+            tempoImpressao.addEventListener("input", calcularEnergia);
+
+            tempoImpressao.addEventListener("input", calcularDepreciacao);
+
+            preparacao.addEventListener("input", calcularMaoObra);
+
+            posProcessamento.addEventListener("input", calcularMaoObra);
+
+            /* ================================= */
+            /* INICIAR */
+            /* ================================= */
+
+            carregarConfiguracoes();
+        </script>
+    </body>
+</html>

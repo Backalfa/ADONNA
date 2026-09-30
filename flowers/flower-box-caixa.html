@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Flower Box Caixa</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f6f3ef;
+}
+
+.container{
+    width:90%;
+    max-width:500px;
+    margin:30px auto;
+}
+
+h1{
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.card{
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    margin-bottom:15px;
+}
+
+label{
+    font-weight:500;
+    display:block;
+    margin-bottom:8px;
+}
+
+select, input{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:15px;
+    margin-bottom:15px;
+}
+
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.calc{
+    background:#A67C52;
+    color:white;
+}
+
+.result{
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+    margin-top:10px;
+}
+
+.small{
+    color:#777;
+    font-size:13px;
+    text-align:center;
+}
+.back{
+    background:#444;
+    color:white;
+    margin-top:10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>🌸 Flower Box Caixa</h1>
+
+<div class="card">
+
+    <label>Tamanho da caixa</label>
+    <select id="tamanho" onchange="togglePeluche()">
+        <option value="pequeno">Pequeno</option>
+        <option value="medio">Médio</option>
+        <option value="grande">Grande</option>
+    </select>
+
+    <div id="pelucheBox" style="display:none; margin-bottom:15px;">
+        <label>Caixa média com peluche?</label>
+
+        <label>
+            <input type="radio" name="peluche" value="com">
+            Com peluche
+        </label>
+
+        <label>
+            <input type="radio" name="peluche" value="sem" checked>
+            Sem peluche
+        </label>
+    </div>
+
+    <label>Flores Pequenas</label>
+    <input type="number" id="peq" value="0" min="0">
+
+    <label>Flores Médias</label>
+    <input type="number" id="med" value="0" min="0">
+
+    <label>Flores Grandes</label>
+    <input type="number" id="gra" value="0" min="0">
+
+</div>
+
+<button class="btn calc" onclick="calcular()">
+    Calcular
+</button>
+
+<div class="card">
+
+    <div class="result" id="resultado">
+        TOTAL: 0.00€
+    </div>
+
+    <div class="small" id="detalhe">
+        Escolhe as opções e carrega em calcular
+    </div>
+
+</div>
+<button class="btn back" onclick="history.back()">
+    ← Voltar
+</button>
+
+</div>
+
+<script>
+
+const precos = {
+    caixa: {
+        pequeno: 16.80,
+        medio_sem: 17.50,
+        medio_com: 20.30,
+        grande: 26.00
+    },
+    flores: {
+        pequenas: 2.00,
+        medias: 3.00,
+        grandes: 4.00
+    }
+};
+
+function togglePeluche(){
+
+    const tamanho = document.getElementById("tamanho").value;
+    const pelucheBox = document.getElementById("pelucheBox");
+
+    if(tamanho === "medio"){
+        pelucheBox.style.display = "block";
+    } else {
+        pelucheBox.style.display = "none";
+    }
+
+}
+
+function calcular(){
+
+    const tamanho = document.getElementById("tamanho").value;
+    const peluche = document.querySelector('input[name="peluche"]:checked');
+
+    const p = parseInt(document.getElementById("peq").value) || 0;
+    const m = parseInt(document.getElementById("med").value) || 0;
+    const g = parseInt(document.getElementById("gra").value) || 0;
+
+    // CAIXA
+    let totalCaixa = 0;
+
+    if(tamanho === "pequeno"){
+        totalCaixa = precos.caixa.pequeno;
+    }
+
+    if(tamanho === "medio"){
+        if(peluche && peluche.value === "com"){
+            totalCaixa = precos.caixa.medio_com;
+        } else {
+            totalCaixa = precos.caixa.medio_sem;
+        }
+    }
+
+    if(tamanho === "grande"){
+        totalCaixa = precos.caixa.grande;
+    }
+
+    // FLORES
+    let totalFlores =
+        (p * precos.flores.pequenas) +
+        (m * precos.flores.medias) +
+        (g * precos.flores.grandes);
+
+    let total = totalCaixa + totalFlores;
+
+    document.getElementById("resultado").innerHTML =
+        "TOTAL: " + total.toFixed(2) + "€";
+
+    document.getElementById("detalhe").innerHTML =
+        `Caixa: ${totalCaixa.toFixed(2)}€ + Flores: ${totalFlores.toFixed(2)}€`;
+
+}
+
+</script>
+
+</body>
+</html>

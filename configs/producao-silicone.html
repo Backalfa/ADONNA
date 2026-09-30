@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="pt-PT">
+    <head>
+        <meta charset="UTF-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Produção - Moldes de Silicone</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Poppins", sans-serif;
+            }
+
+            body {
+                background: #f6f3ef;
+                color: #333;
+            }
+
+            .container {
+                width: 90%;
+                max-width: 500px;
+                margin: 30px auto;
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 26px;
+            }
+
+            .card {
+                background: #fff;
+                border-radius: 20px;
+                padding: 20px;
+                margin-bottom: 15px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            }
+
+            .item {
+                margin-bottom: 15px;
+            }
+
+            .item:last-child {
+                margin-bottom: 0;
+            }
+
+            label {
+                display: block;
+                font-weight: 500;
+                margin-bottom: 6px;
+            }
+
+            input {
+                width: 100%;
+                padding: 12px;
+                border-radius: 12px;
+                border: 1px solid #ddd;
+                font-size: 15px;
+            }
+
+            input:focus {
+                outline: none;
+                border-color: #a67c52;
+            }
+
+            input[readonly] {
+                background: #f5f5f5;
+            }
+
+            .resultado {
+                background: #f5f5f5;
+                font-weight: 600;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 15px;
+                border: none;
+                border-radius: 15px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .back {
+                background: #444;
+                color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>🧪 Moldes de Silicone</h1>
+
+            <!-- ================================= -->
+            <!-- SILICONE -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">🧪 Silicone</h2>
+
+                <div class="item">
+                    <label> Peso do molde (g) </label>
+
+                    <input type="number" step="0.01" id="pesoSilicone" placeholder="Ex: 250" />
+                </div>
+
+                <div class="item">
+                    <label> Preço do silicone (€/kg) </label>
+
+                    <input type="number" step="0.01" id="precoSilicone" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Perda de silicone (%) </label>
+
+                    <input type="number" step="0.01" id="perdaSilicone" readonly />
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item">
+                    <label> Subtotal Silicone (€) </label>
+
+                    <input type="text" id="subtotalSilicone" class="resultado" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- BASE -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">🧪 Base</h2>
+
+                <div class="item">
+                    <label> Preço Base (€) </label>
+
+                    <input type="number" step="0.01" id="precoBase" value="0" placeholder="Ex: 0,50" />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- MÃO DE OBRA -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">👷 Mão de Obra</h2>
+
+                <div class="item">
+                    <label> Preparação (minutos) </label>
+
+                    <input type="number" step="1" id="preparacao" placeholder="Ex: 10" />
+                </div>
+
+                <div class="item">
+                    <label> Pós-Processamento (minutos) </label>
+
+                    <input type="number" step="1" id="posProcessamento" placeholder="Ex: 10" />
+                </div>
+
+                <div class="item">
+                    <label> Valor Tempo (€/hora) </label>
+
+                    <input type="number" step="0.01" id="valorTempo" readonly />
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item">
+                    <label> Subtotal Mão de Obra (€) </label>
+
+                    <input type="text" id="subtotalMaoObra" class="resultado" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- RESULTADO -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px">💰 Resultado</h2>
+
+                <div class="item">
+                    <label> Total de Custo (€) </label>
+
+                    <input type="text" id="totalCusto" class="resultado" value="0,00 €" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Margem de Lucro (%) </label>
+
+                    <input type="text" id="margemLucro" class="resultado" value="0,00 %" readonly />
+                </div>
+
+                <div class="item">
+                    <label> Preço de Venda (€) </label>
+
+                    <input type="text" id="precoVenda" class="resultado" value="0,00 €" readonly />
+                </div>
+            </div>
+
+            <!-- ================================= -->
+            <!-- VOLTAR -->
+            <!-- ================================= -->
+
+            <div class="card">
+                <button class="btn back" onclick="history.back()">← Voltar</button>
+            </div>
+        </div>
+
+        <!-- ================================= -->
+        <!-- JAVASCRIPT -->
+        <!-- ================================= -->
+
+        <script type="module">
+            import { obterConfig } from "../js/config.js";
+
+            // =================================
+            // ELEMENTOS
+            // =================================
+
+            const pesoSilicone = document.getElementById("pesoSilicone");
+
+            const precoSilicone = document.getElementById("precoSilicone");
+
+            const perdaSilicone = document.getElementById("perdaSilicone");
+
+            const subtotalSilicone = document.getElementById("subtotalSilicone");
+
+            const precoBase = document.getElementById("precoBase");
+
+            const preparacao = document.getElementById("preparacao");
+
+            const posProcessamento = document.getElementById("posProcessamento");
+
+            const valorTempo = document.getElementById("valorTempo");
+
+            const subtotalMaoObra = document.getElementById("subtotalMaoObra");
+
+            const totalCusto = document.getElementById("totalCusto");
+
+            const margemLucro = document.getElementById("margemLucro");
+
+            const precoVenda = document.getElementById("precoVenda");
+
+            // =================================
+            // VARIÁVEIS
+            // =================================
+
+            let precoEmbalagem = 0;
+
+            let quantidadeEmbalagem = 0;
+
+            let precoPorKg = 0;
+
+            let perdaSiliconeValor = 0;
+
+            // =================================
+            // FORMATAR EURO
+            // =================================
+
+            function formatarEuro(valor) {
+                return valor.toFixed(2).replace(".", ",") + " €";
+            }
+
+            // =================================
+            // CARREGAR CONFIGURAÇÕES
+            // =================================
+
+            async function carregarConfiguracoes() {
+                const preco = await obterConfig("silicone.preco");
+
+                const quantidade = await obterConfig("silicone.quantidade");
+
+                const perda = await obterConfig("silicone.perdaSilicone");
+
+                const valorTempoConfig = await obterConfig("maoObra.valorTempo");
+
+                const margemLucroConfig = await obterConfig("margemLucro");
+
+                precoEmbalagem = Number(preco) || 0;
+
+                quantidadeEmbalagem = Number(quantidade) || 0;
+
+                perdaSiliconeValor = Number(perda) || 0;
+
+                // =============================
+                // PREÇO POR KG
+                // =============================
+
+                if (quantidadeEmbalagem > 0) {
+                    precoPorKg = precoEmbalagem / quantidadeEmbalagem;
+                }
+
+                precoSilicone.value = precoPorKg.toFixed(2);
+
+                perdaSilicone.value = perdaSiliconeValor;
+
+                // =============================
+                // MÃO DE OBRA
+                // =============================
+
+                valorTempo.value = valorTempoConfig ?? "";
+
+                // =============================
+                // MARGEM
+                // =============================
+
+                margemLucro.value = margemLucroConfig !== null ? margemLucroConfig + " %" : "";
+
+                calcularSilicone();
+
+                calcularMaoObra();
+            }
+
+            // =================================
+            // CALCULAR SILICONE
+            // =================================
+
+            function calcularSilicone() {
+                const peso = parseFloat(pesoSilicone.value) || 0;
+
+                // Peso com perda
+
+                const pesoComPerda = peso * (1 + perdaSiliconeValor / 100);
+
+                // Converter para kg
+
+                const pesoKg = pesoComPerda / 1000;
+
+                // Custo
+
+                const resultado = pesoKg * precoPorKg;
+
+                subtotalSilicone.value = formatarEuro(resultado);
+
+                calcularTotal();
+            }
+
+            // =================================
+            // CALCULAR MÃO DE OBRA
+            // =================================
+
+            function calcularMaoObra() {
+                const preparacaoValor = parseFloat(preparacao.value) || 0;
+
+                const posProcessamentoValor = parseFloat(posProcessamento.value) || 0;
+
+                const valorTempoValor = parseFloat(valorTempo.value) || 0;
+
+                const resultado =
+                    (preparacaoValor * valorTempoValor) / 600 + (posProcessamentoValor * valorTempoValor) / 60;
+
+                subtotalMaoObra.value = formatarEuro(resultado);
+
+                calcularTotal();
+            }
+
+            // =================================
+            // CALCULAR TOTAL
+            // =================================
+
+            function calcularTotal() {
+                const silicone = parseFloat(subtotalSilicone.value.replace(",", ".").replace("€", "")) || 0;
+
+                const base = parseFloat(precoBase.value) || 0;
+
+                const maoObra = parseFloat(subtotalMaoObra.value.replace(",", ".").replace("€", "")) || 0;
+
+                const margem = parseFloat(margemLucro.value.replace(",", ".").replace("%", "")) || 0;
+
+                // =============================
+                // TOTAL DE CUSTO
+                // =============================
+
+                const total = silicone + base + maoObra;
+
+                totalCusto.value = formatarEuro(total);
+
+                // =============================
+                // PREÇO DE VENDA
+                // =============================
+
+                const preco = total * (1 + margem / 100);
+
+                precoVenda.value = formatarEuro(preco);
+            }
+
+            // =================================
+            // EVENTOS
+            // =================================
+
+            pesoSilicone.addEventListener("input", calcularSilicone);
+
+            precoBase.addEventListener("input", calcularTotal);
+
+            preparacao.addEventListener("input", calcularMaoObra);
+
+            posProcessamento.addEventListener("input", calcularMaoObra);
+
+            // =================================
+            // INICIAR
+            // =================================
+
+            carregarConfiguracoes();
+        </script>
+    </body>
+</html>

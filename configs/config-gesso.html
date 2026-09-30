@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Config Gesso</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f6f3ef;
+    color:#333;
+}
+
+.container{
+    width:90%;
+    max-width:500px;
+    margin:30px auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    font-size:26px;
+}
+
+.card{
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.item{
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+    font-weight:500;
+    margin-bottom:6px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:15px;
+    background:#f5f5f5;
+}
+
+input:focus{
+    outline:none;
+    border-color:#A67C52;
+}
+
+small{
+    display:block;
+    margin-top:5px;
+    color:#777;
+}
+
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.back{
+    background:#444;
+    color:white;
+}
+
+.code{
+    font-family:monospace;
+    font-size:12px;
+    background:#f2f2f2;
+    padding:8px;
+    border-radius:8px;
+    margin-top:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🏺 Config Gesso</h1>
+
+
+<div class="card">
+
+    <div class="item">
+
+        <label>Corante (€/kg base)</label>
+
+        <input
+            id="corante"
+            type="number"
+            step="0.0001"
+            readonly
+        >
+
+        <small>Usado na fórmula:</small>
+
+        <div class="code">
+            (peso * consumoCorante) * corante
+        </div>
+
+    </div>
+
+
+    <div class="item">
+
+        <label>Consumo base de corante (%)</label>
+
+        <input
+            id="consumoCorante"
+            type="number"
+            step="0.01"
+            readonly
+        >
+
+        <small>
+            Multiplicador do peso da peça
+        </small>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <div class="item">
+
+        <label>Preço base gesso (€/kg)</label>
+
+        <input
+            id="precoBase"
+            type="number"
+            step="0.0001"
+            readonly
+        >
+
+        <small>
+            Usado na fórmula: peso * preço
+        </small>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <button
+        class="btn back"
+        onclick="history.back()"
+    >
+        ← Voltar
+    </button>
+
+</div>
+
+
+</div>
+
+
+<script type="module">
+
+import { obterConfig } from "../js/config.js";
+
+
+async function carregarGesso() {
+
+    document.getElementById("corante").value =
+        await obterConfig("gesso.corante");
+
+
+    document.getElementById("consumoCorante").value =
+        await obterConfig("gesso.consumoCorante");
+
+
+    document.getElementById("precoBase").value =
+        await obterConfig("gesso.precoBase");
+
+}
+
+
+carregarGesso();
+
+</script>
+
+
+</body>
+</html>
+```

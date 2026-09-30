@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+<meta charset="UTF-8">
+<title>Calculos A Donna</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f6f3ef;
+}
+
+.container{
+    width:90%;
+    max-width:500px;
+    margin:30px auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.box{
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    margin-bottom:15px;
+}
+
+.hidden{
+    display:none;
+}
+
+label{
+    font-weight:500;
+}
+
+input[type="number"]{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    margin-top:8px;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.btn-calc{
+    background:#A67C52;
+    color:white;
+}
+
+.btn-back{
+    background:#444;
+    color:white;
+}
+
+.section-title{
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.result{
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+    margin-top:10px;
+}
+
+.small{
+    text-align:center;
+    color:#777;
+    font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⚙ Cálculos Produção</h1>
+
+<!-- ================= MATERIALS ================= -->
+<div class="box">
+
+    <div class="section-title">Selecione os materiais</div>
+
+    <label><input type="checkbox" id="chkCera"> Cera</label><br>
+    <label><input type="checkbox" id="chkJes"> Jesmonite</label><br>
+    <label><input type="checkbox" id="chkGesso"> Gesso</label>
+
+</div>
+
+<!-- ================= CERA ================= -->
+<div id="boxCera" class="box hidden">
+
+    <div class="section-title">Cera</div>
+
+    <label>Tipo</label><br>
+    <label><input type="radio" name="tipoCera" value="moldes"> Moldes</label>
+    <label><input type="radio" name="tipoCera" value="copos"> Copos</label>
+
+    <label>Quantidade (g)</label>
+    <input type="number" id="qCera">
+
+    <label>Corante</label><br>
+    <label><input type="radio" name="coranteCera" value="sim"> Sim</label>
+    <label><input type="radio" name="coranteCera" value="nao" checked> Não</label>
+
+</div>
+
+<!-- ================= JESMONITE ================= -->
+<div id="boxJes" class="box hidden">
+
+    <div class="section-title">Jesmonite</div>
+
+    <label>Peso (g)</label>
+    <input type="number" id="pesoJes">
+
+    <small>Inclui sempre corante</small>
+
+</div>
+
+<!-- ================= GESSO ================= -->
+<div id="boxGesso" class="box hidden">
+
+    <div class="section-title">Gesso</div>
+
+    <label>Peso (g)</label>
+    <input type="number" id="pesoGesso">
+
+    <label>Corante</label><br>
+    <label><input type="radio" name="coranteGesso" value="sim"> Sim</label>
+    <label><input type="radio" name="coranteGesso" value="nao" checked> Não</label>
+
+</div>
+
+<!-- ================= FINAL ================= -->
+<div id="boxFinal" class="box hidden">
+
+    <div class="section-title">Finalização</div>
+
+    <label>Recipiente (€)</label>
+    <input type="number" id="precoRecipiente">
+
+    <label>Caixa (€)</label>
+    <input type="number" id="precoCaixa">
+
+    <label>Extras (€)</label>
+    <input type="number" id="precoExtras">
+
+    <label>Envio (€)</label>
+    <input type="number" id="custoEnvio">
+
+    <button class="btn-calc" onclick="calcularTotal()">CALCULAR</button>
+
+    <div class="result" id="resultado">Total: € 0.00</div>
+
+    <div class="small" id="detalhe">Escolhe os materiais e calcula</div>
+
+</div>
+
+<!-- ================= VOLTAR ================= -->
+<div class="box">
+
+    <button class="btn-back" onclick="history.back()">
+        ← Voltar
+    </button>
+
+</div>
+
+</div>
+
+<script>
+
+/* ================= TOGGLE ================= */
+
+function toggleBox(chk, id){
+    const box = document.getElementById(id);
+    box.classList.toggle("hidden", !chk.checked);
+    mostrarFinal();
+}
+
+function mostrarFinal(){
+    const final = document.getElementById("boxFinal");
+    final.classList.toggle("hidden", !(chkCera.checked || chkJes.checked || chkGesso.checked));
+}
+
+chkCera.onchange = () => toggleBox(chkCera,"boxCera");
+chkJes.onchange = () => toggleBox(chkJes,"boxJes");
+chkGesso.onchange = () => toggleBox(chkGesso,"boxGesso");
+
+/* ================= ENGINE ================= */
+
+function calcularTotal(){
+
+    let total = 0;
+
+    if(chkCera.checked) total += calcCera();
+    if(chkJes.checked) total += calcJesmonite();
+    if(chkGesso.checked) total += calcGesso();
+
+    total += getFinal();
+
+    total *= 1.25;
+
+    document.getElementById("resultado").innerText =
+        "Total: € " + total.toFixed(2);
+}
+
+/* ================= CERA ================= */
+
+function calcCera(){
+
+    const q = parseFloat(qCera.value) || 0;
+    const tipo = document.querySelector("input[name='tipoCera']:checked");
+
+    let total = 0;
+
+    if(tipo && tipo.value === "moldes"){
+        total += (q * 8.32) / 1000;
+    } else {
+        total += (q * 5.25) / 1000;
+    }
+
+    const cor = document.querySelector("input[name='coranteCera']:checked");
+
+    if(cor && cor.value === "sim"){
+        total += (q * 0.02) * 0.2213;
+    }
+
+    total += ((q * 0.02) * 25.11) / 100;
+
+    return total;
+}
+
+/* ================= JESMONITE ================= */
+
+function calcJesmonite(){
+
+    const peso = parseFloat(pesoJes.value) || 0;
+
+    return (
+        ((peso * 1.05) * 0.714) * 0.009048 +
+        ((peso * 1.05) * 0.286) * 0.02262 +
+        (peso * 0.02) * 0.0691
+    );
+}
+
+/* ================= GESSO ================= */
+
+function calcGesso(){
+
+    const peso = parseFloat(pesoGesso.value) || 0;
+
+    let total = peso * 0.0061;
+
+    const cor = document.querySelector("input[name='coranteGesso']:checked");
+
+    if(cor && cor.value === "sim"){
+        total += (peso * 0.02) * 0.0691;
+    }
+
+    return total;
+}
+
+/* ================= FINAL ================= */
+
+function getFinal(){
+
+    return (
+        (parseFloat(precoRecipiente.value) || 0) +
+        (parseFloat(precoCaixa.value) || 0) +
+        (parseFloat(precoExtras.value) || 0) +
+        (parseFloat(custoEnvio.value) || 0)
+    );
+}
+
+</script>
+
+</body>
+</html>

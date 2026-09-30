@@ -1,0 +1,67 @@
+{
+    "cera": {
+        "moldes": 8.32,
+        "copos": 5.25,
+        "corante": 0.2213,
+        "aroma": 25.11
+    },
+
+    "flowerBoxes": {
+        "caixaGrande": 26.00,
+        "caixaMediaComPeluche": 20.30,
+        "caixaMediaSemPeluche": 17.50,
+        "caixaPequena": 16.80,
+        "potePequeno": 19.90,
+        "poteMedio": 21.00,
+        "poteGrande": 23.80,
+        "extraPoteGrandeOndulado": 2.80,
+        "coelhoFelpudo": 2.30,
+        "floresPequenas": 2.00,
+        "floresMedias": 3.00,
+        "floresGrandes": 4.00
+    },
+
+    "gesso": {
+        "corante": 0.0691,
+        "consumoCorante": 0.02,
+        "precoBase": 0.0061
+    },
+
+    "jesmonite": {
+        "percentA": 0.714,
+        "percentB": 0.286,
+        "precoA": 0.009048,
+        "precoB": 0.02262,
+        "fatorPerda": 1.05,
+        "consumoCorante": 0.02,
+        "precoCorante": 0.0691
+    },
+
+    "material": {
+        "precoFilamento": 10.83,
+        "perdaMaterial": 7
+    },
+
+    "energia": {
+        "potenciaMaquina": 400,
+        "precoEnergia": 0.17
+    },
+
+    "depreciacao": {
+        "precoImpressora": 250.00,
+        "vidaUtil": 5000,
+        "manutencao": 10
+    },
+
+    "maoObra": {
+        "valorTempo": 10
+    },
+
+    "silicone": {
+    "preco": 91.48,
+    "quantidade": 4.52,
+    "perdaSilicone": 10
+    },
+
+    "margemLucro": 65
+}
